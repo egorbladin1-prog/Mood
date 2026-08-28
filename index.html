@@ -7,105 +7,160 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            background: #0a0a0a;
             color: #fff;
-            padding: 20px;
+            padding: 16px;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
-        .container { max-width: 400px; margin: 0 auto; }
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 20%, rgba(88,101,242,0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(76,175,80,0.1) 0%, transparent 50%);
+            animation: bgMove 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-5%, 5%); }
+        }
+        .container { max-width: 400px; margin: 0 auto; position: relative; z-index: 1; }
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255,255,255,0.05);
+            margin-bottom: 24px;
+            padding: 24px 16px;
+            background: rgba(255,255,255,0.03);
             border-radius: 20px;
-            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.06);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
-        .header .logo { font-size: 50px; margin-bottom: 10px; }
-        .header h1 { font-size: 28px; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .header p { color: #888; font-size: 14px; margin-top: 5px; }
-        .menu { display: grid; gap: 12px; }
+        .header .logo {
+            font-size: 48px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header p { color: #666; font-size: 13px; margin-top: 4px; }
+        .menu { display: grid; gap: 10px; }
         .btn {
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px;
-            padding: 18px;
+            padding: 16px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 14px;
             backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
         }
-        .btn:active { transform: scale(0.97); }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: left 0.5s;
+        }
+        .btn:active::before { left: 100%; }
+        .btn:active { transform: scale(0.98); }
         .btn .icon {
-            font-size: 30px;
-            width: 50px;
-            height: 50px;
+            font-size: 24px;
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 12px;
+            background: rgba(102,126,234,0.15);
         }
-        .btn .green .icon { background: rgba(76,175,80,0.2); }
-        .btn .blue .icon { background: rgba(33,150,243,0.2); }
-        .btn .title { font-size: 16px; font-weight: bold; }
-        .btn .desc { color: #888; font-size: 12px; margin-top: 3px; }
-        .btn.green { border-color: rgba(76,175,80,0.5); }
-        .btn.blue { border-color: rgba(33,150,243,0.5); }
-        input, textarea {
+        .btn .icon.green { background: rgba(76,175,80,0.15); }
+        .btn .icon.blue { background: rgba(33,150,243,0.15); }
+        .btn .icon.orange { background: rgba(255,152,0,0.15); }
+        .btn .title { font-size: 15px; font-weight: 600; }
+        .btn .desc { color: #666; font-size: 11px; margin-top: 2px; }
+        input {
             width: 100%;
-            background: rgba(255,255,255,0.08);
-            border: 2px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 12px;
             padding: 14px;
             color: #fff;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             font-size: 14px;
             outline: none;
             transition: all 0.3s;
         }
-        input:focus { border-color: #2196F3; }
-        .label { color: #aaa; font-size: 12px; display: block; margin-bottom: 5px; }
+        input:focus {
+            border-color: #667eea;
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+        }
+        input::placeholder { color: #444; }
+        .label { color: #888; font-size: 11px; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         .submit {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #fff;
             border: none;
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 14px;
+            padding: 16px;
             width: 100%;
-            font-size: 16px;
-            font-weight: bold;
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 10px;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
         }
         .submit:active { transform: scale(0.97); }
         .back {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+            background: transparent;
+            color: #888;
             border: none;
-            border-radius: 10px;
-            padding: 12px;
-            width: 100%;
-            margin-bottom: 15px;
+            padding: 8px 0;
             cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 16px;
         }
         .hidden { display: none; }
         .card {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255,255,255,0.03);
             border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            backdrop-filter: blur(10px);
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
         }
-        h2 { margin-bottom: 20px; font-size: 22px; }
         .section-title {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #FFD700;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
+        h2 { margin-bottom: 16px; font-size: 20px; font-weight: 700; }
     </style>
 </head>
 <body>
@@ -117,22 +172,22 @@
         </div>
 
         <div id="mainMenu" class="menu">
-            <div class="btn green" onclick="showProject()">
-                <div class="icon">🛠</div>
+            <div class="btn" onclick="showProject()">
+                <div class="icon green">🛠</div>
                 <div>
                     <div class="title">Создать проект</div>
                     <div class="desc">Black Russia — бесплатно</div>
                 </div>
             </div>
-            <div class="btn blue" onclick="showProfile()">
-                <div class="icon">👤</div>
+            <div class="btn" onclick="showProfile()">
+                <div class="icon blue">👤</div>
                 <div>
                     <div class="title">Профиль</div>
                     <div class="desc">Статус и КД</div>
                 </div>
             </div>
-            <div class="btn blue" onclick="showHelp()">
-                <div class="icon">ℹ️</div>
+            <div class="btn" onclick="showHelp()">
+                <div class="icon orange">ℹ️</div>
                 <div>
                     <div class="title">Помощь</div>
                     <div class="desc">Инструкция</div>
@@ -148,19 +203,16 @@
                 <div class="section-title">📁 FTP данные</div>
                 <label class="label">IP / Домен</label>
                 <input type="text" id="ftp_ip" placeholder="ftp.hostgta.net">
-                
                 <label class="label">Логин</label>
                 <input type="text" id="ftp_login" placeholder="u1234_user">
-                
                 <label class="label">Пароль</label>
                 <input type="password" id="ftp_pass" placeholder="••••••">
             </div>
             
             <div class="card">
-                <div class="section-title">🏷 Настройки сервера</div>
+                <div class="section-title">🏷 Сервер</div>
                 <label class="label">Название</label>
                 <input type="text" id="server_name" placeholder="My Server">
-                
                 <label class="label">IP сервера</label>
                 <input type="text" id="server_ip" placeholder="5.39.108.49:1157">
             </div>
@@ -177,14 +229,14 @@
                 <input type="text" id="mysql" placeholder="u1234_user pass123 u1234_base">
             </div>
             
-            <button class="submit" onclick="submitProject()">🚀 Запустить установку</button>
+            <button class="submit" onclick="submitProject()">🚀 Запустить</button>
         </div>
 
         <div id="profileView" class="hidden">
             <button class="back" onclick="showMain()">← Назад</button>
             <h2>👤 Профиль</h2>
             <div class="card">
-                <p style="text-align:center; color:#888;">Данные загружаются из Telegram...</p>
+                <p style="text-align:center; color:#666;">Загрузка...</p>
             </div>
         </div>
 
@@ -192,9 +244,11 @@
             <button class="back" onclick="showMain()">← Назад</button>
             <h2>ℹ️ Помощь</h2>
             <div class="card">
-                <p>📡 <b>IP сервера:</b> на главной странице</p>
-                <p style="margin:10px 0;">📁 <b>FTP данные:</b> раздел «FTP»</p>
-                <p>🗄 <b>База данных:</b> раздел «Базы данных»</p>
+                <p style="color:#888; line-height:1.6;">
+                    📡 <b style="color:#fff;">IP сервера:</b><br>на главной странице<br><br>
+                    📁 <b style="color:#fff;">FTP данные:</b><br>раздел «FTP»<br><br>
+                    🗄 <b style="color:#fff;">База данных:</b><br>раздел «Базы данных»
+                </p>
             </div>
         </div>
     </div>
@@ -203,29 +257,27 @@
         let tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
+        tg.setHeaderColor('#0a0a0a');
+        tg.setBackgroundColor('#0a0a0a');
 
         function showProject() {
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('projectForm').classList.remove('hidden');
         }
-
         function showProfile() {
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('profileView').classList.remove('hidden');
         }
-
         function showHelp() {
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('helpView').classList.remove('hidden');
         }
-
         function showMain() {
             document.getElementById('projectForm').classList.add('hidden');
             document.getElementById('profileView').classList.add('hidden');
             document.getElementById('helpView').classList.add('hidden');
             document.getElementById('mainMenu').classList.remove('hidden');
         }
-
         function submitProject() {
             let data = {
                 ftp_ip: document.getElementById('ftp_ip').value,
@@ -236,56 +288,12 @@
                 bonuses: document.getElementById('bonuses').value,
                 mysql: document.getElementById('mysql').value
             };
-            
-            let message = "🛠 Новый проект из Mini App!\n\n";
-            message += "FTP: " + data.ftp_ip + " " + data.ftp_login + " " + data.ftp_pass + "\n";
-            message += "Название: " + data.server_name + "\n";
-            message += "IP: " + data.server_ip + "\n";
-            message += "Бонусы: " + data.bonuses + "\n";
-            message += "MySQL: " + data.mysql;
-            
-            tg.sendData(message);
-            tg.close();
-        }
-    </script>
-</body>
-</html>        }
-
-        function showProfile() {
-            document.getElementById('mainMenu').classList.add('hidden');
-            document.getElementById('profileView').classList.remove('hidden');
-        }
-
-        function showHelp() {
-            document.getElementById('mainMenu').classList.add('hidden');
-            document.getElementById('helpView').classList.remove('hidden');
-        }
-
-        function showMain() {
-            document.getElementById('projectForm').classList.add('hidden');
-            document.getElementById('profileView').classList.add('hidden');
-            document.getElementById('helpView').classList.add('hidden');
-            document.getElementById('mainMenu').classList.remove('hidden');
-        }
-
-        function submitProject() {
-            let data = {
-                ftp_ip: document.getElementById('ftp_ip').value,
-                ftp_login: document.getElementById('ftp_login').value,
-                ftp_pass: document.getElementById('ftp_pass').value,
-                server_name: document.getElementById('server_name').value,
-                server_ip: document.getElementById('server_ip').value,
-                bonuses: document.getElementById('bonuses').value,
-                mysql: document.getElementById('mysql').value
-            };
-            
-            let message = "🛠 <b>Новый проект из Mini App!</b>\n\n";
-            message += "📁 <b>FTP:</b> " + data.ftp_ip + " " + data.ftp_login + "\n";
-            message += "🏷 <b>Название:</b> " + data.server_name + "\n";
-            message += "📡 <b>IP:</b> " + data.server_ip + "\n";
-            message += "🎁 <b>Бонусы:</b> " + data.bonuses + "\n";
-            message += "🗄 <b>MySQL:</b> " + data.mysql + "\n";
-            
+            let message = "🛠 Новый проект!\n\n";
+            message += "📁 FTP: " + data.ftp_ip + " " + data.ftp_login + " " + data.ftp_pass + "\n";
+            message += "🏷 Название: " + data.server_name + "\n";
+            message += "📡 IP: " + data.server_ip + "\n";
+            message += "🎁 Бонусы: " + data.bonuses + "\n";
+            message += "🗄 MySQL: " + data.mysql;
             tg.sendData(message);
             tg.close();
         }
