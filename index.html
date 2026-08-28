@@ -5,84 +5,198 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
-        body { font-family:-apple-system,sans-serif; background:#0f0f0f; color:#fff; padding:20px; }
-        .header { text-align:center; margin-bottom:20px; }
-        .header h1 { font-size:24px; }
-        .header p { color:#888; font-size:14px; }
-        .btn { background:#1a1a1a; border:1px solid #333; border-radius:12px; padding:15px; margin-bottom:10px; cursor:pointer; }
-        .btn:active { background:#222; }
-        .btn .title { font-size:16px; font-weight:bold; }
-        .btn .desc { color:#888; font-size:12px; margin-top:3px; }
-        .btn.green { border-color:#4CAF50; }
-        .btn.blue { border-color:#2196F3; }
-        input, textarea { width:100%; background:#1a1a1a; border:1px solid #333; border-radius:8px; padding:10px; color:#fff; margin-bottom:10px; }
-        .label { color:#888; font-size:12px; display:block; margin-bottom:5px; }
-        .submit { background:#4CAF50; color:#fff; border:none; border-radius:8px; padding:12px; width:100%; font-size:16px; font-weight:bold; cursor:pointer; }
-        .hidden { display:none; }
-        .back { background:#333; color:#fff; border:none; border-radius:8px; padding:10px; width:100%; margin-bottom:10px; cursor:pointer; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #16213e 100%);
+            color: #fff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 400px; margin: 0 auto; }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .header .logo { font-size: 50px; margin-bottom: 10px; }
+        .header h1 { font-size: 28px; background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .header p { color: #888; font-size: 14px; margin-top: 5px; }
+        .menu { display: grid; gap: 12px; }
+        .btn {
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+        }
+        .btn:active { transform: scale(0.97); }
+        .btn .icon {
+            font-size: 30px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+        .btn .green .icon { background: rgba(76,175,80,0.2); }
+        .btn .blue .icon { background: rgba(33,150,243,0.2); }
+        .btn .title { font-size: 16px; font-weight: bold; }
+        .btn .desc { color: #888; font-size: 12px; margin-top: 3px; }
+        .btn.green { border-color: rgba(76,175,80,0.5); }
+        .btn.blue { border-color: rgba(33,150,243,0.5); }
+        input, textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.08);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 14px;
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus { border-color: #2196F3; }
+        .label { color: #aaa; font-size: 12px; display: block; margin-bottom: 5px; }
+        .submit {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 15px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        .submit:active { transform: scale(0.97); }
+        .back {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .hidden { display: none; }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h2 { margin-bottom: 20px; font-size: 22px; }
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #FFD700;
+        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>👑 Byba Studio</h1>
-        <p>Управление проектом</p>
-    </div>
-
-    <div id="mainMenu">
-        <div class="btn green" onclick="showProject()">
-            <div class="title">🛠 Создать проект</div>
-            <div class="desc">Black Russia — бесплатно</div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">👑</div>
+            <h1>Byba Studio</h1>
+            <p>Автоматическая сборка серверов</p>
         </div>
-        <div class="btn blue" onclick="showProfile()">
-            <div class="title">👤 Профиль</div>
-            <div class="desc">Статус и КД</div>
+
+        <div id="mainMenu" class="menu">
+            <div class="btn green" onclick="showProject()">
+                <div class="icon">🛠</div>
+                <div>
+                    <div class="title">Создать проект</div>
+                    <div class="desc">Black Russia — бесплатно</div>
+                </div>
+            </div>
+            <div class="btn blue" onclick="showProfile()">
+                <div class="icon">👤</div>
+                <div>
+                    <div class="title">Профиль</div>
+                    <div class="desc">Статус и КД</div>
+                </div>
+            </div>
+            <div class="btn blue" onclick="showHelp()">
+                <div class="icon">ℹ️</div>
+                <div>
+                    <div class="title">Помощь</div>
+                    <div class="desc">Инструкция</div>
+                </div>
+            </div>
         </div>
-        <div class="btn blue" onclick="showHelp()">
-            <div class="title">ℹ️ Помощь</div>
-            <div class="desc">Инструкция</div>
+
+        <div id="projectForm" class="hidden">
+            <button class="back" onclick="showMain()">← Назад</button>
+            <h2>🛠 Создание проекта</h2>
+            
+            <div class="card">
+                <div class="section-title">📁 FTP данные</div>
+                <label class="label">IP / Домен</label>
+                <input type="text" id="ftp_ip" placeholder="ftp.hostgta.net">
+                
+                <label class="label">Логин</label>
+                <input type="text" id="ftp_login" placeholder="u1234_user">
+                
+                <label class="label">Пароль</label>
+                <input type="password" id="ftp_pass" placeholder="••••••">
+            </div>
+            
+            <div class="card">
+                <div class="section-title">🏷 Настройки сервера</div>
+                <label class="label">Название</label>
+                <input type="text" id="server_name" placeholder="My Server">
+                
+                <label class="label">IP сервера</label>
+                <input type="text" id="server_ip" placeholder="5.39.108.49:1157">
+            </div>
+            
+            <div class="card">
+                <div class="section-title">🎁 Бонусы</div>
+                <label class="label">Деньги и Донат</label>
+                <input type="text" id="bonuses" placeholder="5000000 1000">
+            </div>
+            
+            <div class="card">
+                <div class="section-title">🗄 MySQL</div>
+                <label class="label">Логин, Пароль, База</label>
+                <input type="text" id="mysql" placeholder="u1234_user pass123 u1234_base">
+            </div>
+            
+            <button class="submit" onclick="submitProject()">🚀 Запустить установку</button>
         </div>
-    </div>
 
-    <div id="projectForm" class="hidden">
-        <button class="back" onclick="showMain()">← Назад</button>
-        <h2 style="margin-bottom:15px;">🛠 Создание проекта</h2>
-        
-        <label class="label">FTP IP / Домен</label>
-        <input type="text" id="ftp_ip" placeholder="ftp.hostgta.net">
-        
-        <label class="label">FTP Логин</label>
-        <input type="text" id="ftp_login" placeholder="u1234_user">
-        
-        <label class="label">FTP Пароль</label>
-        <input type="password" id="ftp_pass" placeholder="••••••">
-        
-        <label class="label">Название сервера</label>
-        <input type="text" id="server_name" placeholder="My Server">
-        
-        <label class="label">IP сервера</label>
-        <input type="text" id="server_ip" placeholder="5.39.108.49:1157">
-        
-        <label class="label">Бонусы (Деньги Донат)</label>
-        <input type="text" id="bonuses" placeholder="5000000 1000">
-        
-        <label class="label">MySQL (Логин Пароль База)</label>
-        <input type="text" id="mysql" placeholder="u1234_user pass123 u1234_base">
-        
-        <button class="submit" onclick="submitProject()">🚀 Запустить установку</button>
-    </div>
+        <div id="profileView" class="hidden">
+            <button class="back" onclick="showMain()">← Назад</button>
+            <h2>👤 Профиль</h2>
+            <div class="card">
+                <p style="text-align:center; color:#888;">Данные загружаются из Telegram...</p>
+            </div>
+        </div>
 
-    <div id="profileView" class="hidden">
-        <button class="back" onclick="showMain()">← Назад</button>
-        <h2 style="margin-bottom:15px;">👤 Профиль</h2>
-        <p>Данные загружаются из Telegram...</p>
-    </div>
-
-    <div id="helpView" class="hidden">
-        <button class="back" onclick="showMain()">← Назад</button>
-        <h2 style="margin-bottom:15px;">ℹ️ Помощь</h2>
-        <p>📡 <b>IP сервера:</b> на главной странице хостинга</p>
-        <p>📁 <b>FTP данные:</b> раздел «FTP»</p>
-        <p>🗄 <b>База данных:</b> раздел «Базы данных»</p>
+        <div id="helpView" class="hidden">
+            <button class="back" onclick="showMain()">← Назад</button>
+            <h2>ℹ️ Помощь</h2>
+            <div class="card">
+                <p>📡 <b>IP сервера:</b> на главной странице</p>
+                <p style="margin:10px 0;">📁 <b>FTP данные:</b> раздел «FTP»</p>
+                <p>🗄 <b>База данных:</b> раздел «Базы данных»</p>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -94,6 +208,48 @@
             document.getElementById('mainMenu').classList.add('hidden');
             document.getElementById('projectForm').classList.remove('hidden');
         }
+
+        function showProfile() {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('profileView').classList.remove('hidden');
+        }
+
+        function showHelp() {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('helpView').classList.remove('hidden');
+        }
+
+        function showMain() {
+            document.getElementById('projectForm').classList.add('hidden');
+            document.getElementById('profileView').classList.add('hidden');
+            document.getElementById('helpView').classList.add('hidden');
+            document.getElementById('mainMenu').classList.remove('hidden');
+        }
+
+        function submitProject() {
+            let data = {
+                ftp_ip: document.getElementById('ftp_ip').value,
+                ftp_login: document.getElementById('ftp_login').value,
+                ftp_pass: document.getElementById('ftp_pass').value,
+                server_name: document.getElementById('server_name').value,
+                server_ip: document.getElementById('server_ip').value,
+                bonuses: document.getElementById('bonuses').value,
+                mysql: document.getElementById('mysql').value
+            };
+            
+            let message = "🛠 Новый проект из Mini App!\n\n";
+            message += "FTP: " + data.ftp_ip + " " + data.ftp_login + " " + data.ftp_pass + "\n";
+            message += "Название: " + data.server_name + "\n";
+            message += "IP: " + data.server_ip + "\n";
+            message += "Бонусы: " + data.bonuses + "\n";
+            message += "MySQL: " + data.mysql;
+            
+            tg.sendData(message);
+            tg.close();
+        }
+    </script>
+</body>
+</html>        }
 
         function showProfile() {
             document.getElementById('mainMenu').classList.add('hidden');
