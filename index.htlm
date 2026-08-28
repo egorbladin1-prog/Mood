@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Byba Studio</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:-apple-system,sans-serif; background:#0f0f0f; color:#fff; padding:20px; }
+        .header { text-align:center; margin-bottom:20px; }
+        .header h1 { font-size:24px; }
+        .header p { color:#888; font-size:14px; }
+        .btn { background:#1a1a1a; border:1px solid #333; border-radius:12px; padding:15px; margin-bottom:10px; cursor:pointer; }
+        .btn:active { background:#222; }
+        .btn .title { font-size:16px; font-weight:bold; }
+        .btn .desc { color:#888; font-size:12px; margin-top:3px; }
+        .btn.green { border-color:#4CAF50; }
+        .btn.blue { border-color:#2196F3; }
+        input, textarea { width:100%; background:#1a1a1a; border:1px solid #333; border-radius:8px; padding:10px; color:#fff; margin-bottom:10px; }
+        .label { color:#888; font-size:12px; display:block; margin-bottom:5px; }
+        .submit { background:#4CAF50; color:#fff; border:none; border-radius:8px; padding:12px; width:100%; font-size:16px; font-weight:bold; cursor:pointer; }
+        .hidden { display:none; }
+        .back { background:#333; color:#fff; border:none; border-radius:8px; padding:10px; width:100%; margin-bottom:10px; cursor:pointer; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>👑 Byba Studio</h1>
+        <p>Управление проектом</p>
+    </div>
+
+    <div id="mainMenu">
+        <div class="btn green" onclick="showProject()">
+            <div class="title">🛠 Создать проект</div>
+            <div class="desc">Black Russia — бесплатно</div>
+        </div>
+        <div class="btn blue" onclick="showProfile()">
+            <div class="title">👤 Профиль</div>
+            <div class="desc">Статус и КД</div>
+        </div>
+        <div class="btn blue" onclick="showHelp()">
+            <div class="title">ℹ️ Помощь</div>
+            <div class="desc">Инструкция</div>
+        </div>
+    </div>
+
+    <div id="projectForm" class="hidden">
+        <button class="back" onclick="showMain()">← Назад</button>
+        <h2 style="margin-bottom:15px;">🛠 Создание проекта</h2>
+        
+        <label class="label">FTP IP / Домен</label>
+        <input type="text" id="ftp_ip" placeholder="ftp.hostgta.net">
+        
+        <label class="label">FTP Логин</label>
+        <input type="text" id="ftp_login" placeholder="u1234_user">
+        
+        <label class="label">FTP Пароль</label>
+        <input type="password" id="ftp_pass" placeholder="••••••">
+        
+        <label class="label">Название сервера</label>
+        <input type="text" id="server_name" placeholder="My Server">
+        
+        <label class="label">IP сервера</label>
+        <input type="text" id="server_ip" placeholder="5.39.108.49:1157">
+        
+        <label class="label">Бонусы (Деньги Донат)</label>
+        <input type="text" id="bonuses" placeholder="5000000 1000">
+        
+        <label class="label">MySQL (Логин Пароль База)</label>
+        <input type="text" id="mysql" placeholder="u1234_user pass123 u1234_base">
+        
+        <button class="submit" onclick="submitProject()">🚀 Запустить установку</button>
+    </div>
+
+    <div id="profileView" class="hidden">
+        <button class="back" onclick="showMain()">← Назад</button>
+        <h2 style="margin-bottom:15px;">👤 Профиль</h2>
+        <p>Данные загружаются из Telegram...</p>
+    </div>
+
+    <div id="helpView" class="hidden">
+        <button class="back" onclick="showMain()">← Назад</button>
+        <h2 style="margin-bottom:15px;">ℹ️ Помощь</h2>
+        <p>📡 <b>IP сервера:</b> на главной странице хостинга</p>
+        <p>📁 <b>FTP данные:</b> раздел «FTP»</p>
+        <p>🗄 <b>База данных:</b> раздел «Базы данных»</p>
+    </div>
+
+    <script>
+        let tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        function showProject() {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('projectForm').classList.remove('hidden');
+        }
+
+        function showProfile() {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('profileView').classList.remove('hidden');
+        }
+
+        function showHelp() {
+            document.getElementById('mainMenu').classList.add('hidden');
+            document.getElementById('helpView').classList.remove('hidden');
+        }
+
+        function showMain() {
+            document.getElementById('projectForm').classList.add('hidden');
+            document.getElementById('profileView').classList.add('hidden');
+            document.getElementById('helpView').classList.add('hidden');
+            document.getElementById('mainMenu').classList.remove('hidden');
+        }
+
+        function submitProject() {
+            let data = {
+                ftp_ip: document.getElementById('ftp_ip').value,
+                ftp_login: document.getElementById('ftp_login').value,
+                ftp_pass: document.getElementById('ftp_pass').value,
+                server_name: document.getElementById('server_name').value,
+                server_ip: document.getElementById('server_ip').value,
+                bonuses: document.getElementById('bonuses').value,
+                mysql: document.getElementById('mysql').value
+            };
+            
+            let message = "🛠 <b>Новый проект из Mini App!</b>\n\n";
+            message += "📁 <b>FTP:</b> " + data.ftp_ip + " " + data.ftp_login + "\n";
+            message += "🏷 <b>Название:</b> " + data.server_name + "\n";
+            message += "📡 <b>IP:</b> " + data.server_ip + "\n";
+            message += "🎁 <b>Бонусы:</b> " + data.bonuses + "\n";
+            message += "🗄 <b>MySQL:</b> " + data.mysql + "\n";
+            
+            tg.sendData(message);
+            tg.close();
+        }
+    </script>
+</body>
+</html>
